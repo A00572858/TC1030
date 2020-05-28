@@ -34,8 +34,9 @@ class Beer{
         string brewery;
     public:
         Beer(string b_name, string brewery_);
-        void whishlist();
+        virtual void imprimir()=0;
         void mybeers(int rate);
+        //~Beer();
 };
 
 Beer::Beer(string b_name, string brewery_){
@@ -122,7 +123,7 @@ private:
     int Quantity;
     string Beers[100];
 public:
-    void Drankit(Beer);
+    void Drankit();
     Wishlist(int Quantity, string Beers);
 };
 
@@ -136,8 +137,9 @@ public:
 
 int main()
 {
-    Top Minerva_stout("Minerva Stout", "Minerva", "Stout", 45, 5.5);
-    Minerva_stout.imprimir();
+    Beer * Minerva_stout = new Top("Minerva Stout", "Minerva", "Stout", 45, 5.5);
+    Minerva_stout->imprimir();
+    delete Minerva_stout;
     Top Negra_modelo("Negra Modelo", "Modelo", "Ambar", 20, 5);
     Negra_modelo.imprimir();
     Top Duvel("Duvel", "Duvel", "Tripel", 30, 12);
