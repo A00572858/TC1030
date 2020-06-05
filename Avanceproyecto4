@@ -1,0 +1,345 @@
+#include <iostream>
+
+using namespace std;
+
+class User{
+    private:
+        string name;
+        string password;
+    public:
+        User(string nam, string pass);
+};
+
+User::User(string nam, string pass){
+    name = nam;
+    password = pass;
+}
+
+class Beer{
+    protected:
+        string bname;
+        string brewery;
+    public:
+        Beer(string b_name, string brewery_);
+        virtual void imprimir()=0;
+};
+
+Beer::Beer(string b_name, string brewery_){
+bname = b_name;
+brewery = brewery_;
+}
+
+class Top : public Beer {
+    private:
+        string bstyle;
+        int bitterness;
+        float abv;
+        int ratebeer;
+    public:
+        void imprimir();
+        Top();
+        Top(string bname, string brewery, string bs, int bitt, float abvv):Beer(bname, brewery){
+        bstyle = bs;
+        bitterness = bitt;
+        abv = abvv;
+        }
+        Top(string bname, string brewery, string bs, int bitt, float abvv,int rateb):Beer(bname, brewery){
+        bstyle = bs;
+        bitterness = bitt;
+        abv = abvv;
+        ratebeer = rateb;
+        }
+};
+
+void Top::imprimir(){
+cout << "Beer name: " << bname << endl;
+cout << "Beer brewery: " << brewery << endl;
+cout << "Beer style: " << bstyle << endl;
+cout << "Beer IBUs: " << bitterness << endl;
+cout << "Beer Alcohol percentage: " << abv << endl;
+cout << "\n" << endl;
+}
+
+class Bottom : public Beer {
+    private:
+        string bstyle;
+        string bitterness;
+        float abv;
+        int ratebeer;
+    public:
+        void imprimir();
+        Bottom();
+        Bottom(string bname, string brewery, string bs, int bitt, float abvv):Beer(bname, brewery){
+        bstyle = bs;
+        bitterness = bitt;
+        abvv = abv;
+        }
+        Bottom(string bname, string brewery, string bs, int bitt, float abvv,int rateb):Beer(bname, brewery){
+        bstyle = bs;
+        bitterness = bitt;
+        abv = abvv;
+        ratebeer = rateb;
+        }
+};
+
+void Bottom::imprimir(){
+cout << "Beer name: " << bname << endl;
+cout << "Beer brewery: " << brewery << endl;
+cout << "Beer style: " << bstyle << endl;
+cout << "Beer IBUs: " << bitterness << endl;
+cout << "Beer Alcohol percentage: " << abv << endl;
+cout << "\n" << endl;
+}
+
+class Spontaneous : public Beer {
+    private:
+        string bstyle;
+        string bitterness;
+        float abv;
+        int ratebeer;
+    public:
+        void imprimir();
+        Spontaneous();
+        Spontaneous(string bname, string brewery, string bs, int bitt, float abvv):Beer(bname, brewery){
+        bstyle = bs;
+        bitterness = bitt;
+        abvv = abv;
+        }
+        Spontaneous(string bname, string brewery, string bs, int bitt, float abvv,int rateb):Beer(bname, brewery){
+        bstyle = bs;
+        bitterness = bitt;
+        abv = abvv;
+        ratebeer = rateb;
+        }
+};
+
+void Spontaneous::imprimir(){
+cout << "Beer name: " << bname << endl;
+cout << "Beer brewery: " << brewery << endl;
+cout << "Beer style: " << bstyle << endl;
+cout << "Beer IBUs: " << bitterness << endl;
+cout << "Beer Alcohol percentage: " << abv << endl;
+cout << "\n" << endl;
+}
+
+class Wishlist{
+private:
+    Beer* Beers[100];
+    int numWbeers = 0;
+public:
+    virtual void showwishlist();
+    virtual void addwishlist(string b_name, string brewery_, string bs, int bitt, int abvv);
+    virtual void delete_W();
+    virtual void drankit();
+    Wishlist();
+};
+
+void Wishlist::addwishlist(string b_name, string brewery_, string bs, int bitt, int abvv){
+    cout << "Fermentation type (Top, Bottom or Spontaneous)" << endl;
+    string type;
+    cin >> type;
+    if (type == "Top" || type == "top"){
+        Beers[numWbeers] = new Top(b_name,brewery_,bs,bitt,abvv);
+
+        numWbeers++;
+    }
+    else if (type == "Bottom" || type == "bottom"){
+        Beers[numWbeers] = new Bottom(b_name,brewery_,bs,bitt,abvv);
+        numWbeers++;
+    }
+    else if (type == "Spontaneous" || type == "spontaneous"){
+        Beers[numWbeers] = new Spontaneous(b_name,brewery_,bs,bitt,abvv);
+        numWbeers++;
+    }
+}
+
+void Wishlist::showwishlist(){
+    for (int i=0;i<numWbeers;i++){
+        cout << i+1 << endl;
+        Beers[i]->imprimir();
+    }
+}
+
+void Wishlist::delete_W(){
+    for (int i=0;i<numWbeers;i++){
+        delete Beers[i];
+    }
+}
+
+void Wishlist::drankit(){
+    cout << "Which is the number of the beer you want to take out of the wishlist?" << endl;
+    int beernum;
+    cin >> beernum;
+    for (int i=beernum;1<numWbeers-1;i++)
+    {
+        Beers[i] = Beers[i+1];
+    };
+}
+
+class MyBeers{
+private:
+    Beer* MBeers[100];
+    int numMbeers = 0;
+public:
+    virtual void showmybeers();
+    virtual void addmybeers(string b_name, string brewery_, string bs, int bitt, int abvv, int rate);
+    virtual void delete_MB();
+    MyBeers();
+};
+
+void MyBeers::addmybeers(string b_name, string brewery_, string bs, int bitt, int abvv, int rate){
+    cout << "Fermentation type (Top, Bottom or Spontaneous)" << endl;
+    string type;
+    cin >> type;
+    if (type == "Top" || type == "top"){
+        MBeers[numMbeers] = new Top(b_name,brewery_,bs,bitt,abvv,rate);
+        numMbeers++;
+    }
+    else if (type == "Bottom" || type == "bottom"){
+        MBeers[numMbeers] = new Bottom(b_name,brewery_,bs,bitt,abvv,rate);
+        numMbeers++;
+    }
+    else if (type == "Spontaneous" || type == "spontaneous"){
+        MBeers[numMbeers] = new Spontaneous(b_name,brewery_,bs,bitt,abvv,rate);
+        numMbeers++;
+    }
+}
+
+void MyBeers::showmybeers(){
+    for (int i=0;i<numMbeers;i++){
+        cout << i+1 << endl;
+        MBeers[i]->imprimir();
+    }
+}
+
+void MyBeers::delete_MB(){
+    for (int i=0;i<numMbeers;i++){
+        delete MBeers[i];
+    }
+}
+
+string username;
+string passw;
+string ans;
+int age1;
+string wans;
+string bans;
+string beername;
+string beerbrewery;
+string beerstyle;
+int beeribu;
+int beerabv;
+int rate;
+string type;
+int beernum;
+string fans;
+int i;
+
+int main()
+{
+    MyBeers* mybeeers = new MyBeers();
+    Wishlist* wishie = new Wishlist();
+    cout << "Create an account to log in" << endl;
+    cout << "Name:" << endl;
+    cin >> username;
+    cout << "Password:" << endl;
+    cin >> passw;
+    cout << "Age:" << endl;
+    cin >> age1;
+
+    if (age1>=18)
+        {
+        User* Userone = new User(username,passw);
+        }
+    else
+        {
+        cout << "You are not overage";
+        return -1;
+        }
+
+    while (true)
+        {
+        cout << "You want to use your _wishlist_ or your catalog _mybeers_?" << endl;
+        cin >> ans;
+        if (ans == "wishlist" || ans == "Wishlist")
+            {
+            cout << "You want to _see_ your wish list, _add_ a beer or take a beer _out_ your wishlist?" << endl;
+            cin >> wans;
+            if (wans == "add" || wans == "ADD" || wans == "Add")
+                {
+                cout << "Beer name:" << endl;
+                cin >> beername;
+                cout << "Brewery" << endl;
+                cin >> beerbrewery;
+                cout << "Beer style:" << endl;
+                cin >> beerstyle;
+                cout << "IBUs:" << endl;
+                cin >> beeribu;
+                cout << "Beer ABV" << endl;
+                cin >> beerabv;
+                wishie->addwishlist(beername,beerbrewery,beerstyle,beeribu,beerabv);
+            }
+            else if (wans == "out" || wans == "Out" || wans == "OUT")
+                {
+                wishie->showwishlist();
+                wishie->drankit();
+            }
+            else if (wans == "see" || wans == "See" || wans == "SEE")
+            {
+                wishie->showwishlist();
+            }
+            else{
+            cout << "ERROR" << endl;
+            break;
+            };
+        }
+        else if (ans == "mybeers" || ans == "MyBeers" || ans == "Mybeers")
+        {
+            cout << "You want to _see_ your beers or _add_ a beer you have tried?" << endl;
+            cin >> bans;
+            if (bans == "see" || bans == "See" || bans == "SEE")
+            {
+                mybeeers->showmybeers();
+            }
+            else if (bans == "add" || bans == "Add" || bans == "ADD")
+            {
+                cout << "Beer name:" << endl;
+                cin >> beername;
+                cout << "Brewery" << endl;
+                cin >> beerbrewery;
+                cout << "Beer style:" << endl;
+                cin >> beerstyle;
+                cout << "IBUs:" << endl;
+                cin >> beeribu;
+                cout << "Beer ABV" << endl;
+                cin >> beerabv;
+                cout << "What rate from 1 to 5 (being 5 completely spectacular) do you give the beer?" << endl;
+                int rate;
+                cin >> rate;
+                mybeeers->addmybeers(beername,beerbrewery,beerstyle,beeribu,beerabv,rate);
+            };
+        }
+        else{
+        cout << "INVALID" << endl;
+        continue;
+        };
+        cout << "Do you want to do another action with your profile?\nYES    NO" << endl;
+        cin >> fans;
+        if (fans == "yes" || fans == "YES" || fans == "Yes")
+        {
+            continue;
+        }
+        else if (fans == "no" || fans == "NO" || fans == "No")
+        {
+            break;
+        }
+        else {
+            cout << "ERROR" << endl;
+            break;
+        }
+    }
+    wishie->delete_W();
+    mybeeers->delete_MB();
+    delete wishie;
+    delete mybeeers;
+}
